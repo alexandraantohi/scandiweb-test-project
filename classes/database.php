@@ -38,7 +38,7 @@ function getProducts()
     FROM products 
     LEFT JOIN book ON book.id = attributes_id AND type = "book" 
     LEFT JOIN furniture ON furniture.id = attributes_id AND type = "furniture" 
-    LEFT JOIN dvd ON dvd.id = attributes_id AND type = "dvd" order by type;');
+    LEFT JOIN dvd ON dvd.id = attributes_id AND type = "dvd";');
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
 }

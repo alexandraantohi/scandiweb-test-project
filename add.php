@@ -46,7 +46,7 @@
         <div class="form-group row ">
             <label for="price" class="col-sm-2 col-form-label">Price ($)</label>
             <div class="col-sm-10">
-                <input type="number" class="form-control" id="price" name="price" placeholder="Enter price" required oninput="check(this)">
+                <input type="number" class="form-control" id="price" name="price" step=".01" placeholder="Enter price" required oninput="check(this)">
             </div>
         </div>
         <br>
@@ -110,7 +110,7 @@
                 <div class="form-group row ">
                     <label for="weight" class="col-sm-2 col-form-label">Weight (KG)</label>
                     <div class="col-sm-10">
-                        <input type="number" class="form-control product-details" id="weight" name="weight" placeholder="Enter weight" oninput="check(this)">
+                        <input type="number" step=".01" class="form-control product-details" id="weight" name="weight" placeholder="Enter weight" oninput="check(this)">
                     </div>
                 </div>
                 <br>

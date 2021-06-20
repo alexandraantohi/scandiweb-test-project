@@ -34,9 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 break;
         }
     } else {
-        foreach ($_POST['checkbox_product'] as $selected) {
-            deleteProduct($selected);
-        }
+        if(ISSET($_POST['checkbox_product']))
+            foreach ($_POST['checkbox_product'] as $selected) {
+                deleteProduct($selected);
+            }
     }
 }
 
