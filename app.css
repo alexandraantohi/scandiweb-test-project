@@ -1,7 +1,37 @@
+
 footer {
     text-align: center;
     padding: 10px;
     left: 0;
     bottom: 0;
     width: 100%;
+    
+}
+
+.delete-checkbox {
+    float: left;
+   
+}
+
+.my-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+}
+
+.my-item {
+    border-style: solid;
+    border-color: black;
+    margin: 2%;
+    width: 40%;
+    text-align:center;
+    padding: 30px;
+}
+
+
+@media only screen and (min-width: 768px) {
+    .my-item {
+        width: 20%;
+    }
 }

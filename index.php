@@ -62,13 +62,14 @@ $products = getProducts();
 
 <body>
 
-    <div class="container">
+    <div class="container ">
+        
         <!-- <header class="d-flex">
             <h1>Product List</h1>
             
             <a href="add.php" class="btn btn-light align-self-end">ADD</a> 
         </header> -->
-        <nav class="navbar navbar-light border-bottom border-dark border-3 mb-3">
+        <nav class="navbar navbar-light border-bottom border-dark border-3 mb-3 ">
             <a class="navbar-brand">Product List</a>
             <div class="float-right">
                 <a href="add.php" class="btn btn-success ">ADD</a>
@@ -78,25 +79,31 @@ $products = getProducts();
 
 
 
-        <form class="row" action="index.php" id="product_form" method="post">
+        <form class="my-container" action="index.php" id="product_form" method="post">
             <?php foreach ($products as $product) { ?>
-                <div class="col-md-3 col-lg-3 text-center p-5 border border-dark ">
-                    <input type="checkbox" class="delete-checkbox" name="checkbox_product[]" value="<?php echo $product['SKU'] ?>">
-                    <p><?php echo $product['SKU'] ?></p>
-                    <p><?php echo $product['name'] ?></p>
-                    <p><?php echo $product['price'] . "$" ?></p>
-                    <?php switch ($product['type']) {
-                        case 'dvd':
-                            echo "Size: " . $product['atributes'] . "MB";
-                            break;
-                        case 'book':
-                            echo "Weight: " . $product['atributes'] . "KG";
-                            break;
-                        case 'furniture':
-                            echo "Dimension: " . $product['atributes'];
-                            break;
-                    }    ?>
 
+                <div class="my-item">
+                    <!-- <div class="col-md-3 col-lg-3 text-center p-5 border border-dark"> -->
+
+                    <input type="checkbox" class="delete-checkbox" name="checkbox_product[]" value="<?php echo $product['SKU'] ?>">
+                    <br>
+
+                    <span><?php echo $product['SKU'] ?></span><br>
+                    <span><?php echo $product['name'] ?></span><br>
+                    <span><?php echo $product['price'] . "$" ?></span><br>
+                    <span>
+                        <?php switch ($product['type']) {
+                            case 'dvd':
+                                echo "Size: " . $product['atributes'] . "MB";
+                                break;
+                            case 'book':
+                                echo "Weight: " . $product['atributes'] . "KG";
+                                break;
+                            case 'furniture':
+                                echo "Dimension: " . $product['atributes'];
+                                break;
+                        }    ?>
+                    </span>
                 </div>
             <?php } ?>
 
@@ -104,8 +111,8 @@ $products = getProducts();
 
 
 
-
-        <footer>Scandiweb Test assignment</footer>
+        
+        <footer class="border-top border-dark border-3">Scandiweb Test assignment</footer>
     </div>
 
 </body>

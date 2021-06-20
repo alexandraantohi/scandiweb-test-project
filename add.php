@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 
@@ -14,14 +13,16 @@
     <title>Scandiweb Test Assignment</title>
 </head>
 
-<body class="p-5">
+<body class="container">
     <nav class="navbar navbar-light border-bottom border-dark border-3 mb-3 padding ml-2">
         <a class="navbar-brand">Product Add</a>
 
-        <a href="index.php" class="btn btn-light border border-dark rounded-0 border-2">Cancel</a>
-        <button class="btn btn-light my-1 border border-dark rounded-0 border-2" type="submit" form="product_form">Save</button>
+        <div class="float-right">
 
+            <button class="btn btn-success" type="submit" form="product_form">Save</button>
+            <a href="index.php" class="btn btn-danger">Cancel</a>
 
+        </div>
     </nav>
 
     <form id="product_form" class="col-md-6" method="POST" action="index.php">
@@ -69,7 +70,7 @@
                 <div class="form-group row ">
                     <label for="size" class="col-sm-2 col-form-label">Size (MB)</label>
                     <div class="col-sm-10">
-                        <input type="number" class="form-control product-details" id="size" name="size"  placeholder="Enter size" required oninput="check(this)">
+                        <input type="number" class="form-control product-details" id="size" name="size" placeholder="Enter size" required oninput="check(this)">
                     </div>
                 </div>
                 <br>
@@ -117,7 +118,10 @@
         </div>
     </form>
 
+    <footer class="border-top border-dark border-3">Scandiweb Test assignment</footer>
+
     <script src="switcher.js"></script>
+
 </body>
 
 </html>
