@@ -14,35 +14,15 @@ class Product
     {
         $this->sku = $sku;
         $this->name = $name;
-        $this->price = $type;
+        $this->price = $price;
         $this->type = $type;
     }
 
-    public function getSku()
-    {
-        return $this->sku;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    public function getType()
-    {
-        return $this->type;
-    }
-
-
+   
     public function getProduct()
     {
-        
-        //require_once "./classes/database.php";
+
+
         global $pdo;
 
         switch ($this->type) {
@@ -73,7 +53,57 @@ class Product
         $statement->execute();
         $pdo->commit();
     }
-
-    
 }
 
+function deleteProduct($sku)
+{
+    global $pdo;
+    $statement = $pdo->prepare('SELECT attributes_id, type FROM products WHERE SKU = CAST(:sku AS int);');
+    $statement->bindValue(':sku', $sku);
+    $pdo->beginTransaction();
+    $statement->execute();
+    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    if ($result) {
+        $result = $result[0];
+
+        switch ($result['type']) {
+            case 'book':
+                $statement = $pdo->prepare('DELETE FROM book WHERE id = :attributes_id');
+                break;
+            case 'dvd':
+                $statement = $pdo->prepare('DELETE FROM dvd WHERE id = :attributes_id');
+                break;
+            case 'furniture':
+                $statement = $pdo->prepare('DELETE FROM furniture WHERE id = :attributes_id');
+        }
+
+        $statement->bindValue(':attributes_id', $result['attributes_id']);
+        $statement->execute();
+        $pdo->commit();
+
+        $statement = $pdo->prepare('DELETE FROM products WHERE SKU = :sku');
+        $statement->bindValue(':sku', $sku);
+        $statement->execute();
+    }
+}
+
+function newProduct($sku, $name, $price, $type, $attributes_id)
+{
+    global $pdo;
+
+    $statement = $pdo->prepare('SELECT sku FROM products WHERE SKU = CAST(:sku AS int);');
+    $statement->bindValue(':sku', $sku);
+    $pdo->beginTransaction();
+    $statement->execute();
+    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    if ($result === []) {
+        $statement = $pdo->prepare('INSERT INTO products (sku, name, price, type, attributes_id) VALUES(:sku, :name, :price, :type, :attributes_id)');
+        $statement->bindValue(':sku', $sku);
+        $statement->bindValue(':name', $name);
+        $statement->bindValue(':price', $price);
+        $statement->bindValue(':type', $type);
+        $statement->bindValue(':attributes_id', $attributes_id);
+        $statement->execute();
+        $pdo->commit();
+    }
+}

@@ -1,14 +1,3 @@
-<?php 
-
-require_once "./classes/database.php";
-
-
-
-
- 
-
-?>
-
 
 <!doctype html>
 <html lang="en">
@@ -27,19 +16,19 @@ require_once "./classes/database.php";
 
 <body class="p-5">
     <nav class="navbar navbar-light border-bottom border-dark border-3 mb-3 padding ml-2">
-            <a class="navbar-brand">Product Add</a>
-            <form class="form-inline">
-                <input type="submit" form="product_form" ><a href="add.php" class="btn btn-light border border-dark rounded-0 border-2">Save</a></input>
-                <button class="btn btn-light my-1 border border-dark rounded-0 border-2" >Cancel</button>
-            </form>
-        
+        <a class="navbar-brand">Product Add</a>
+
+        <a href="index.php" class="btn btn-light border border-dark rounded-0 border-2">Cancel</a>
+        <button class="btn btn-light my-1 border border-dark rounded-0 border-2" type="submit" form="product_form">Save</button>
+
+
     </nav>
 
-    <form id="product_form" class="col-md-6"  method="POST" action="index.php">
+    <form id="product_form" class="col-md-6" method="POST" action="index.php">
         <div class="form-group row ">
             <label for="sku" class="col-sm-2 col-form-label">SKU</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="sku" name="sku" value="123" placeholder="Enter sku">
+                <input type="text" class="form-control" id="sku" name="sku" placeholder="Enter sku" required>
             </div>
             <div class="invalid-feedback">Please provide a valid SKU</div>
         </div>
@@ -48,7 +37,7 @@ require_once "./classes/database.php";
         <div class="form-group row ">
             <label for="name" class="col-sm-2 col-form-label">Name</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="name" name="name" value="Ceva" placeholder="Enter name" >
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" required>
             </div>
         </div>
         <br>
@@ -56,7 +45,7 @@ require_once "./classes/database.php";
         <div class="form-group row ">
             <label for="price" class="col-sm-2 col-form-label">Price ($)</label>
             <div class="col-sm-10">
-                <input type="number" class="form-control" id="price" name="price" value="50" placeholder="Enter price" >
+                <input type="number" class="form-control" id="price" name="price" placeholder="Enter price" required oninput="check(this)">
             </div>
         </div>
         <br>
@@ -72,60 +61,63 @@ require_once "./classes/database.php";
             </div>
         </div>
         <br>
+        <div id="productDetails">
 
-        <!-- DVD product description -->
-        <div id="dvdDetails">
-            <div class="form-group row ">
-                <label for="size" class="col-sm-2 col-form-label">Size (MB)</label>
-                <div class="col-sm-10">
-                    <input type="number" class="form-control" id="size" name="size" value="10" placeholder="Enter size" >
+
+            <!-- DVD product description -->
+            <div id="dvdDetails">
+                <div class="form-group row ">
+                    <label for="size" class="col-sm-2 col-form-label">Size (MB)</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control product-details" id="size" name="size"  placeholder="Enter size" required oninput="check(this)">
+                    </div>
                 </div>
+                <br>
             </div>
-            <br>
-        </div>
-        
 
-        <!-- Furniture product description -->
-        <div id="furnitureDetails">
-            <div class="form-group row ">
-                <label for="height" class="col-sm-2 col-form-label">Height (CM)</label>
-                <div class="col-sm-10">
-                    <input type="number" class="form-control" id="height" name="height" placeholder="Enter height" >
+
+            <!-- Furniture product description -->
+            <div id="furnitureDetails">
+                <div class="form-group row ">
+                    <label for="height" class="col-sm-2 col-form-label">Height (CM)</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control product-details" id="height" name="height" placeholder="Enter height" oninput="check(this)">
+                    </div>
                 </div>
-            </div>
-            <br>
+                <br>
 
-            <div class="form-group row ">
-                <label for="width" class="col-sm-2 col-form-label">Width (CM)</label>
-                <div class="col-sm-10">
-                    <input type="number" class="form-control" id="width" name="width" placeholder="Enter width" >
+                <div class="form-group row ">
+                    <label for="width" class="col-sm-2 col-form-label">Width (CM)</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control product-details" id="width" name="width" placeholder="Enter width" oninput="check(this)">
+                    </div>
                 </div>
-            </div>
-            <br>
+                <br>
 
-            <div class="form-group row ">
-                <label for="length" class="col-sm-2 col-form-label">Length (CM)</label>
-                <div class="col-sm-10">
-                    <input type="number" class="form-control" id="length" name="length" placeholder="Enter length" >
+                <div class="form-group row ">
+                    <label for="length" class="col-sm-2 col-form-label">Length (CM)</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control product-details" id="length" name="length" placeholder="Enter length" oninput="check(this)">
+                    </div>
                 </div>
+                <br>
             </div>
-            <br>
-        </div>
-        
 
-        <!-- Book product description -->
-        <div id="bookDetails">
-            <div class="form-group row ">
+
+            <!-- Book product description -->
+            <div id="bookDetails">
+                <div class="form-group row ">
                     <label for="weight" class="col-sm-2 col-form-label">Weight (KG)</label>
                     <div class="col-sm-10">
-                        <input type="number" class="form-control" id="weight" name="weight" placeholder="Enter weight" >
+                        <input type="number" class="form-control product-details" id="weight" name="weight" placeholder="Enter weight" oninput="check(this)">
                     </div>
+                </div>
+                <br>
             </div>
-            <br>
         </div>
-        
     </form>
 
     <script src="switcher.js"></script>
 </body>
+
 </html>
