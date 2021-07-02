@@ -3,20 +3,30 @@
  require_once './classes/product.php';
 
 class Dvd extends Product {
-    public function __construct($sku, $name, $price, $type, $size) {
-        parent::__construct($sku, $name, $price, $type);
-        $this->size = $size;
+    private $size;
+
+    public function __construct($sku, $name, $price, $type, $attributes) {
+        parent::__construct($sku, $name, $price, $type, 0);
+        $this->size = $attributes['size'];
+
+    }
+
+    public function getSize(){
+        return $this->size;
+    }
+
+    public function insert() {
         global $pdo;
         //Insert into dvd
         $statement = $pdo->prepare('INSERT INTO dvd (size) VALUES(:size)');
-        $statement->bindValue(':size', $size);
+        $statement->bindValue(':size', $this->getSize());
         $pdo->beginTransaction();
         $statement->execute();
-        $this->attributes_id = $pdo->lastInsertId();
+        $this->setAttributesId($pdo->lastInsertId());
         $pdo->commit();
 
         
         //Insert into products
-        newProduct($sku, $name, $price, $type, $this->attributes_id);
+        $this->insertProduct();
     }
 }

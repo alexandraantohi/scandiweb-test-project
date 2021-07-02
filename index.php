@@ -9,33 +9,29 @@ require_once "./classes/product.php";
 global $pdo;
 
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_REQUEST['sku'])) {
-        $sku = $_REQUEST['sku'];
-        $name = $_REQUEST['name'];
-        $price = $_REQUEST['price'];
-        $type = $_REQUEST['type'];
-        $weight = $_REQUEST['weight'];
-        $size = $_REQUEST['size'];
-        $height = $_REQUEST['height'];
-        $width = $_REQUEST['width'];
-        $length = $_REQUEST['length'];
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if (isset($_REQUEST["sku"])) {
+        $sku = $_REQUEST["sku"];
+        $name = $_REQUEST["name"];
+        $price = $_REQUEST["price"];
+        $type = $_REQUEST["type"];
+        $weight = $_REQUEST["weight"];
+        $size = $_REQUEST["size"];
+        $height = $_REQUEST["height"];
+        $width = $_REQUEST["width"];
+        $length = $_REQUEST["length"];
 
-
-        switch ($type) {
-            case 'book':
-                $book = new Book($sku, $name, $price, $type, $weight);
-                break;
-            case 'dvd':
-                $dvd = new Dvd($sku, $name, $price, $type, $size);
-                break;
-            case 'furniture':
-                $furniture = new Furniture($sku, $name, $price, $type, $height, $width, $length);
-                break;
-        }
+        $itemClass = array("book" => "Book", "dvd" => "Dvd", "furniture" => "Furniture");
+        $itemAttributes = array("book"=> ["weight"=>$weight], 
+                                "dvd" => ["size" => $size],
+                                "furniture" => ["height" => $height, "width" => $width, "length" => $length]);
+        
+        $item = new $itemClass[$type]($sku, $name, $price, $type, $itemAttributes[$type]);
+        $item->insert();
+        
     } else {
-        if(ISSET($_POST['checkbox_product']))
-            foreach ($_POST['checkbox_product'] as $selected) {
+        if(ISSET($_POST["checkbox_product"]))
+            foreach ($_POST["checkbox_product"] as $selected) {
                 deleteProduct($selected);
             }
     }
@@ -86,24 +82,18 @@ $products = getProducts();
                 <div class="my-item">
                     <!-- <div class="col-md-3 col-lg-3 text-center p-5 border border-dark"> -->
 
-                    <input type="checkbox" class="delete-checkbox" name="checkbox_product[]" value="<?php echo $product['SKU'] ?>">
+                    <input type="checkbox" class="delete-checkbox" name="checkbox_product[]" value="<?php echo $product["SKU"] ?>">
                     <br>
 
-                    <span><?php echo $product['SKU'] ?></span><br>
-                    <span><?php echo $product['name'] ?></span><br>
-                    <span><?php echo $product['price'] . "$" ?></span><br>
+                    <span><?php echo $product["SKU"] ?></span><br>
+                    <span><?php echo $product["name"] ?></span><br>
+                    <span><?php echo $product["price"] . "$" ?></span><br>
                     <span>
-                        <?php switch ($product['type']) {
-                            case 'dvd':
-                                echo "Size: " . $product['atributes'] . "MB";
-                                break;
-                            case 'book':
-                                echo "Weight: " . $product['atributes'] . "KG";
-                                break;
-                            case 'furniture':
-                                echo "Dimension: " . $product['atributes'];
-                                break;
-                        }    ?>
+                        <?php $details = array("dvd" => "Size: " . $product["atributes"] . "MB",
+                                               "book" => "Weight: " . $product["atributes"] . "KG",
+                                               "furniture" => "Dimension: " . $product["atributes"]);
+                        echo $details[$product["type"]];
+                        ?>
                     </span>
                 </div>
             <?php } ?>
